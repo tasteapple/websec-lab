@@ -1,0 +1,49 @@
+<!-- file: app/templates/health.html -->
+
+{% extends "base.html" %}
+
+{% block title %}Health · WebSec Local Lab{% endblock %}
+{% block page_title %}Health Check{% endblock %}
+
+{% block content %}
+  <section class="panel">
+    <div class="panel__header">
+      <div>
+        <h2>서버 상태</h2>
+        <p>로컬 Flask 앱의 기본 설정을 확인합니다.</p>
+      </div>
+    </div>
+
+    <dl class="info-list">
+      <div>
+        <dt>Status</dt>
+        <dd><span class="badge badge--ok">{{ health.status }}</span></dd>
+      </div>
+
+      <div>
+        <dt>App</dt>
+        <dd>{{ health.app }}</dd>
+      </div>
+
+      <div>
+        <dt>External network</dt>
+        <dd>{{ "disabled" if not health.external_network_enabled else "enabled" }}</dd>
+      </div>
+
+      <div>
+        <dt>Upload directory</dt>
+        <dd><code>{{ health.upload_dir }}</code></dd>
+      </div>
+
+      <div>
+        <dt>Cache directory</dt>
+        <dd><code>{{ health.cache_dir }}</code></dd>
+      </div>
+
+      <div>
+        <dt>Checked at</dt>
+        <dd>{{ health.checked_at }}</dd>
+      </div>
+    </dl>
+  </section>
+{% endblock %}

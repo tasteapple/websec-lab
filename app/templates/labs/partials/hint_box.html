@@ -1,0 +1,17 @@
+<!-- file: app/templates/labs/partials/hint_box.html -->
+
+{% if hints %}
+  <section class="hint-box">
+    <button class="hint-box__toggle" type="button" data-toggle="hint">
+      힌트 열기
+    </button>
+
+    <div class="hint-box__body" hidden>
+      <ul>
+        {% for hint in hints %}
+          <li>{{ hint }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+{% endif %}

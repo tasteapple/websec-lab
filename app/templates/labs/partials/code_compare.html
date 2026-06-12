@@ -1,0 +1,21 @@
+<!-- file: app/templates/labs/partials/code_compare.html -->
+
+<section class="code-compare">
+  <article class="code-card">
+    <div class="code-card__header">
+      <h3>취약한 코드</h3>
+      <span>교육용 취약 코드</span>
+    </div>
+
+    <pre><code>{{ vulnerable_code }}</code></pre>
+  </article>
+
+  <article class="code-card code-card--safe">
+    <div class="code-card__header">
+      <h3>안전한 코드</h3>
+      <span>방어 원칙 적용</span>
+    </div>
+
+    <pre><code>{{ secure_code }}</code></pre>
+  </article>
+</section>

@@ -1,0 +1,19 @@
+<!-- file: app/templates/errors/500.html -->
+
+{% extends "base.html" %}
+
+{% block title %}500 · WebSec Local Lab{% endblock %}
+{% block page_title %}500{% endblock %}
+
+{% block content %}
+  <section class="panel">
+    <h2>서버 오류가 발생했습니다</h2>
+    <p>
+      로컬 개발 로그를 확인하세요. 실습 구현 중 예외가 발생했을 수 있습니다.
+    </p>
+
+    <p>
+      <a class="button-link" href="{{ url_for('main.dashboard') }}">대시보드로 돌아가기</a>
+    </p>
+  </section>
+{% endblock %}

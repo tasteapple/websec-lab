@@ -1,0 +1,137 @@
+<!-- file: app/templates/labs/lab_level.html -->
+
+{% extends "base.html" %}
+
+{% block title %}
+  {{ lab.title }} Level {{ current_level }} · WebSec Local Lab
+{% endblock %}
+
+{% block page_title %}
+  {{ lab.title }}
+{% endblock %}
+
+{% block content %}
+  <section class="notice">
+    <div>
+      <h2>{{ level_data.title }}</h2>
+      <p>{{ level_data.goal }}</p>
+    </div>
+  </section>
+
+  {% include "labs/partials/level_tabs.html" with context %}
+
+  <section class="panel">
+    <div class="panel__header">
+      <div>
+        <h2>입력 폼</h2>
+        <p>
+          이 입력은 로컬 SQLite의 교육용 테이블에만 적용됩니다.
+          실제 외부 시스템에는 요청하지 않습니다.
+        </p>
+      </div>
+
+      <span class="level-badge">Level {{ current_level }}</span>
+    </div>
+
+    <form class="lab-form" method="post">
+      {% for field in level_data.form_fields %}
+        <label class="form-field">
+          <span>{{ field.label }}</span>
+
+          <input
+            type="{{ field.field_type }}"
+            name="{{ field.name }}"
+            placeholder="{{ field.placeholder }}"
+            value="{{ request.form.get(field.name, '') if field.field_type != 'password' else '' }}"
+          >
+
+          {% if field.help_text %}
+            <small>{{ field.help_text }}</small>
+          {% endif %}
+        </label>
+      {% endfor %}
+
+      <button class="button-link" type="submit">실행</button>
+    </form>
+  </section>
+
+  {% if result %}
+    <section class="panel">
+      <div class="panel__header">
+        <div>
+          <h2>결과</h2>
+          <p>{{ result.message }}</p>
+        </div>
+
+        <span class="badge badge--{{ result.status }}">
+          {{ result.status }}
+        </span>
+      </div>
+
+      {% if result.debug_sql %}
+        <h3>실행된 쿼리 또는 처리 방식</h3>
+        <pre class="result-sql"><code>{{ result.debug_sql }}</code></pre>
+      {% endif %}
+
+      {% if result.error %}
+        <h3>오류</h3>
+        <pre class="result-error"><code>{{ result.error }}</code></pre>
+      {% endif %}
+
+      {% if result.rows %}
+        <h3>반환된 행</h3>
+
+        <div class="table-wrap">
+          <table class="result-table">
+            <thead>
+              <tr>
+                {% for key in result.rows[0].keys() %}
+                  <th>{{ key }}</th>
+                {% endfor %}
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for row in result.rows %}
+                <tr>
+                  {% for value in row.values() %}
+                    <td>{{ value }}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="muted-text">표시할 행이 없습니다.</p>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  {% with hints=level_data.hints %}
+    {% include "labs/partials/hint_box.html" %}
+  {% endwith %}
+
+  <section class="panel">
+    <div class="panel__header">
+      <div>
+        <h2>코드 비교</h2>
+        <p>왼쪽은 교육용 취약 코드, 오른쪽은 안전한 구현 예시입니다.</p>
+      </div>
+    </div>
+
+    {% with vulnerable_code=level_data.vulnerable_code, secure_code=level_data.secure_code %}
+      {% include "labs/partials/code_compare.html" %}
+    {% endwith %}
+  </section>
+
+  <section class="panel panel--subtle">
+    <h2>방어 포인트</h2>
+
+    <ul class="plain-list">
+      {% for note in level_data.defense_notes %}
+        <li>{{ note }}</li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endblock %}

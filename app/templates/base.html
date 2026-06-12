@@ -1,0 +1,110 @@
+<!-- file: app/templates/base.html -->
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}WebSec Local Lab{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+  </head>
+
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="sidebar__brand">
+          <a href="{{ url_for('main.dashboard') }}">WebSec Local Lab</a>
+          <span>local training</span>
+        </div>
+
+        <nav class="sidebar__nav" aria-label="Main navigation">
+          <a
+            class="sidebar__link {% if active_page == 'dashboard' %}is-active{% endif %}"
+            href="{{ url_for('main.dashboard') }}"
+          >
+            Dashboard
+          </a>
+
+          <button
+            class="sidebar__section-toggle"
+            type="button"
+            data-sidebar-toggle="labs"
+            aria-expanded="{{ 'true' if active_category else 'false' }}"
+          >
+            <span>Labs</span>
+            <span class="sidebar__chevron" aria-hidden="true">▾</span>
+          </button>
+
+          <div
+            class="sidebar__section-body"
+            data-sidebar-section="labs"
+            {% if not active_category %}hidden{% endif %}
+          >
+            {% for category in lab_categories %}
+              <a
+                class="sidebar__link {% if active_category == category['slug'] %}is-active{% endif %}"
+                href="{{ url_for('labs.category', category_slug=category['slug']) }}"
+              >
+                {{ category['nav_title'] }}
+              </a>
+            {% endfor %}
+          </div>
+
+          <button
+            class="sidebar__section-toggle"
+            type="button"
+            data-sidebar-toggle="workspace"
+            aria-expanded="{{ 'true' if active_page in ['progress', 'settings'] else 'false' }}"
+          >
+            <span>Workspace</span>
+            <span class="sidebar__chevron" aria-hidden="true">▾</span>
+          </button>
+
+          <div
+            class="sidebar__section-body"
+            data-sidebar-section="workspace"
+            {% if active_page not in ['progress', 'settings'] %}hidden{% endif %}
+          >
+            <a
+              class="sidebar__link {% if active_page == 'progress' %}is-active{% endif %}"
+              href="/progress"
+            >
+              Progress
+            </a>
+
+            <a
+              class="sidebar__link {% if active_page == 'settings' %}is-active{% endif %}"
+              href="#"
+            >
+              Settings
+            </a>
+          </div>
+        </nav>
+      </aside>
+
+      <div class="page">
+        <header class="topbar">
+          <div>
+            <p class="topbar__eyebrow">Local only</p>
+            <h1 class="topbar__title">
+              {% block page_title %}Dashboard{% endblock %}
+            </h1>
+          </div>
+
+          <div class="topbar__meta">
+            <span class="status-dot"></span>
+            127.0.0.1
+          </div>
+        </header>
+
+        <main class="content">
+          {% block content %}{% endblock %}
+        </main>
+      </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

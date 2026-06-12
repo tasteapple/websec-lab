@@ -1,0 +1,65 @@
+<!-- file: app/templates/labs/category.html -->
+
+{% extends "base.html" %}
+
+{% block title %}{{ category.title }} · WebSec Local Lab{% endblock %}
+{% block page_title %}{{ category.title }}{% endblock %}
+
+{% block content %}
+  <section class="notice">
+    <div>
+      <h2>{{ category.title }}</h2>
+      <p>{{ category.description }}</p>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel__header">
+      <div>
+        <h2>실습 문제</h2>
+        <p>각 문제는 Level 1부터 Level 5까지 점진적으로 안전해지는 구조입니다.</p>
+      </div>
+    </div>
+
+    <div class="lab-list">
+      {% for lab in category.labs %}
+        <article class="lab-row">
+          <div>
+            <h3>{{ lab.title }}</h3>
+            <p>
+              Lab ID:
+              <code>{{ lab.id }}</code>
+            </p>
+
+            {% if lab.get("implemented") %}
+              <span class="badge badge--ok">구현됨</span>
+            {% else %}
+              <span class="badge badge--muted">예정</span>
+            {% endif %}
+          </div>
+
+          <div class="lab-row__actions">
+            <span>{{ lab.levels }} levels</span>
+
+            {% if lab.get("implemented") %}
+              <a class="button-link" href="/labs/{{ category.slug }}/{{ lab.id }}/level/1">
+                Level 1 시작
+              </a>
+            {% else %}
+              <span class="muted-text">다음 Step에서 추가 예정</span>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="panel panel--subtle">
+    <h2>학습 방식</h2>
+    <ul class="plain-list">
+      <li>Level 1은 의도적으로 취약한 코드입니다.</li>
+      <li>Level 2~4는 방어가 조금씩 추가되지만 결함이 남아 있습니다.</li>
+      <li>Level 5는 권장되는 안전한 구현을 보여줍니다.</li>
+    </ul>
+  </section>
+{% endblock %}

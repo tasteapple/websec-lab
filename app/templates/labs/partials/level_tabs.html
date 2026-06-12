@@ -1,0 +1,12 @@
+<!-- file: app/templates/labs/partials/level_tabs.html -->
+
+<nav class="level-tabs" aria-label="Lab levels">
+  {% for item in levels %}
+    <a
+      class="level-tabs__item {% if item.level == current_level %}is-active{% endif %}"
+      href="/labs/{{ category.slug }}/{{ lab.lab_id }}/level/{{ item.level }}"
+    >
+      Level {{ item.level }}
+    </a>
+  {% endfor %}
+</nav>
