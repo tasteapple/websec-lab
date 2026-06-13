@@ -78,7 +78,32 @@
         <pre class="result-error"><code>{{ result.error }}</code></pre>
       {% endif %}
 
-      {% if result.rows %}
+      {% if result.kind == "xss-comments" %}
+        <div class="xss-warning">
+          {{ result.warning }}
+        </div>
+
+        <h3>댓글 미리보기</h3>
+
+        <div class="xss-comment-list">
+          {% for comment in result.comments %}
+            <article
+              class="xss-comment-card"
+              data-author="{{ comment.data_author }}"
+            >
+              <div class="xss-comment-card__meta">
+                <strong>{{ comment.nickname }}</strong>
+                <span>{{ comment.created_at }}</span>
+              </div>
+
+              <div class="xss-comment-card__body">
+                {{ comment.body }}
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+
+      {% elif result.rows %}
         <h3>반환된 행</h3>
 
         <div class="table-wrap">
@@ -102,6 +127,7 @@
             </tbody>
           </table>
         </div>
+
       {% else %}
         <p class="muted-text">표시할 행이 없습니다.</p>
       {% endif %}

@@ -5,6 +5,8 @@ from flask import Blueprint, abort, render_template, request
 from app.labs.registry import get_category
 from app.labs.sqli import get_lab as get_sqli_lab
 from app.labs.sqli import run_level as run_sqli_level
+from app.labs.xss import get_lab as get_xss_lab
+from app.labs.xss import run_level as run_xss_level
 
 
 labs_bp = Blueprint("labs", __name__, url_prefix="/labs")
@@ -14,7 +16,11 @@ LAB_RUNTIME = {
     "sqli": {
         "get_lab": get_sqli_lab,
         "run_level": run_sqli_level,
-    }
+    },
+    "xss": {
+        "get_lab": get_xss_lab,
+        "run_level": run_xss_level,
+    },
 }
 
 
@@ -40,8 +46,6 @@ def category(category_slug):
 def lab_level(category_slug, lab_id, level):
     """
     특정 Lab의 특정 Level 페이지입니다.
-
-    아직 구현되지 않은 카테고리는 404로 처리합니다.
     """
 
     category_data = get_category(category_slug)
@@ -77,10 +81,11 @@ def lab_level(category_slug, lab_id, level):
         active_page="labs",
         active_category=category_slug,
         category=category_data,
+        category_slug=category_slug,
         lab=lab,
+        lab_id=lab_id,
         level_data=level_data,
         current_level=level,
         levels=levels,
         result=result,
     )
-    

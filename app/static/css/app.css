@@ -709,3 +709,48 @@ code {
   margin-left: 8px;
   width: calc(100% - 8px);
 }
+
+/* XSS 댓글 미리보기 */
+.xss-warning {
+  margin: 12px 0 18px;
+  border: 1px solid #fed7aa;
+  border-radius: 10px;
+  background: #fff7ed;
+  color: #7c2d12;
+  padding: 12px 14px;
+  font-size: 0.92rem;
+}
+
+.xss-comment-list {
+  display: grid;
+  gap: 12px;
+}
+
+.xss-comment-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.xss-comment-card__meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.xss-comment-card__meta strong {
+  color: var(--text);
+}
+
+.xss-comment-card__meta span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.xss-comment-card__body {
+  color: var(--muted-strong);
+  overflow-wrap: anywhere;
+}

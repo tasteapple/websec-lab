@@ -2,11 +2,13 @@
 
 from decimal import Decimal
 from pathlib import Path
-from app.labs.sqli import reset_sqli_demo_table
 
 from flask import current_app
+from sqlalchemy import text
 
 from app.extensions import db
+from app.labs.sqli import reset_sqli_demo_table
+from app.labs.xss import reset_xss_demo_table
 from app.models import (
     Comment,
     LabProgress,
@@ -24,26 +26,41 @@ def seed_database():
     로컬 개발용 샘플 데이터를 초기화합니다.
 
     주의:
-    - 기존 데이터를 모두 삭제하고 다시 생성합니다.
+    - 기존 ORM 테이블 데이터를 모두 삭제하고 다시 생성합니다.
+    - SQLi / XSS 실습 전용 raw SQL 테이블도 별도로 초기화합니다.
     - 실제 서비스용 기능이 아니라 로컬 교육용 기능입니다.
     - 업로드 파일은 instance/uploads/ 내부에만 생성합니다.
     """
 
+    # ORM 모델 기반 테이블 초기화
     db.drop_all()
     db.create_all()
-    
-    # ORM 모델이 아닌 SQL Injection 실습 전용 raw SQL 테이블도 초기화합니다.
+
+    # ORM 모델이 아닌 SQL Injection 실습 전용 raw SQL 테이블 초기화
     reset_sqli_demo_table()
+
+    # ORM 모델이 아닌 XSS 실습 전용 raw SQL 테이블 초기화
+    reset_xss_demo_table()
 
     users = _create_users()
     products = _create_products()
     posts = _create_posts(users)
+
     _create_comments(users, posts)
     _create_orders(users, products)
     _create_uploaded_files(users)
     _create_lab_progress(users)
 
     db.session.commit()
+
+    # demo table count도 실제 DB에서 조회합니다.
+    sqli_demo_user_count = db.session.execute(
+        text("SELECT COUNT(*) FROM sqli_demo_users")
+    ).scalar_one()
+
+    xss_demo_comment_count = db.session.execute(
+        text("SELECT COUNT(*) FROM xss_demo_comments")
+    ).scalar_one()
 
     return {
         "users": User.query.count(),
@@ -53,7 +70,8 @@ def seed_database():
         "orders": Order.query.count(),
         "uploaded_files": UploadedFile.query.count(),
         "lab_progress": LabProgress.query.count(),
-        "sqli_demo_users": len(DEMO_USERS) if False else 4,
+        "sqli_demo_users": sqli_demo_user_count,
+        "xss_demo_comments": xss_demo_comment_count,
     }
 
 
