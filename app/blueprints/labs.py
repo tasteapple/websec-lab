@@ -2,6 +2,8 @@
 
 from flask import Blueprint, abort, render_template, request
 
+from app.labs.file_upload import get_lab as get_file_upload_lab
+from app.labs.file_upload import run_level as run_file_upload_level
 from app.labs.registry import get_category
 from app.labs.sqli import get_lab as get_sqli_lab
 from app.labs.sqli import run_level as run_sqli_level
@@ -20,6 +22,10 @@ LAB_RUNTIME = {
     "xss": {
         "get_lab": get_xss_lab,
         "run_level": run_xss_level,
+    },
+    "file-upload": {
+        "get_lab": get_file_upload_lab,
+        "run_level": run_file_upload_level,
     },
 }
 
@@ -65,9 +71,18 @@ def lab_level(category_slug, lab_id, level):
         abort(404)
 
     result = None
+    has_file_upload = any(
+        field.field_type == "file"
+        for field in level_data.form_fields
+    )
 
     if request.method == "POST":
-        result = runtime["run_level"](lab_id, level, request.form)
+        result = runtime["run_level"](
+            lab_id,
+            level,
+            request.form,
+            request.files,
+        )
 
     levels = [
         {
@@ -88,4 +103,5 @@ def lab_level(category_slug, lab_id, level):
         current_level=level,
         levels=levels,
         result=result,
+        has_file_upload=has_file_upload,
     )

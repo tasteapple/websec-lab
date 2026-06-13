@@ -4,7 +4,8 @@
   /*
    * 공통 UI 스크립트입니다.
    *
-   * 현재는 힌트 박스와 사이드바 섹션 토글을 담당합니다.
+   * - 힌트 박스 열기/닫기
+   * - 사이드바 섹션 열림/닫힘 상태 저장
    */
 
   function setupHintToggles() {
@@ -35,6 +36,16 @@
     });
   }
 
+  function setSidebarSectionState(button, body, isOpen) {
+    if (isOpen) {
+      body.removeAttribute("hidden");
+      button.setAttribute("aria-expanded", "true");
+    } else {
+      body.setAttribute("hidden", "");
+      button.setAttribute("aria-expanded", "false");
+    }
+  }
+
   function setupSidebarToggles() {
     const buttons = document.querySelectorAll("[data-sidebar-toggle]");
 
@@ -48,16 +59,31 @@
         return;
       }
 
+      const storageKey = `websec-lab:sidebar:${sectionName}`;
+      const savedState = window.localStorage.getItem(storageKey);
+
+      /*
+       * 저장된 상태가 있으면 서버 렌더링 기본값보다 사용자의 선택을 우선합니다.
+       * 저장된 상태가 없으면 base.html에서 내려준 기본 open/closed 상태를 그대로 둡니다.
+       */
+      if (savedState === "open") {
+        setSidebarSectionState(button, body, true);
+      }
+
+      if (savedState === "closed") {
+        setSidebarSectionState(button, body, false);
+      }
+
       button.addEventListener("click", () => {
         const isHidden = body.hasAttribute("hidden");
+        const nextIsOpen = isHidden;
 
-        if (isHidden) {
-          body.removeAttribute("hidden");
-          button.setAttribute("aria-expanded", "true");
-        } else {
-          body.setAttribute("hidden", "");
-          button.setAttribute("aria-expanded", "false");
-        }
+        setSidebarSectionState(button, body, nextIsOpen);
+
+        window.localStorage.setItem(
+          storageKey,
+          nextIsOpen ? "open" : "closed"
+        );
       });
     });
   }

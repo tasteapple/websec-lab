@@ -754,3 +754,48 @@ code {
   color: var(--muted-strong);
   overflow-wrap: anywhere;
 }
+
+/* File Upload 결과 */
+.upload-result-list {
+  display: grid;
+  gap: 12px;
+}
+
+.upload-result-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.upload-result-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 14px;
+}
+
+.upload-result-card dl div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 12px;
+}
+
+.upload-result-card dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.upload-result-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.upload-result-card h4 {
+  margin: 12px 0 8px;
+}
+
+@media (max-width: 640px) {
+  .upload-result-card dl div {
+    grid-template-columns: 1fr;
+  }
+}

@@ -110,6 +110,7 @@ LAB_CATEGORIES = [
                 "id": "upload-profile-image",
                 "title": "프로필 이미지 업로드",
                 "levels": 5,
+                "implemented": True,
             }
         ],
     },

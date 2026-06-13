@@ -406,7 +406,7 @@ def get_lab(lab_id):
     return None
 
 
-def run_level(lab_id, level, form):
+def run_level(lab_id, level, form, files=None):
     """
     특정 SQLi Lab Level을 실행합니다.
 

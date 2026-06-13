@@ -33,17 +33,24 @@
       <span class="level-badge">Level {{ current_level }}</span>
     </div>
 
-    <form class="lab-form" method="post">
+    <form class="lab-form" method="post" {% if has_file_upload %}enctype="multipart/form-data"{% endif %}>
       {% for field in level_data.form_fields %}
         <label class="form-field">
           <span>{{ field.label }}</span>
 
-          <input
-            type="{{ field.field_type }}"
-            name="{{ field.name }}"
-            placeholder="{{ field.placeholder }}"
-            value="{{ request.form.get(field.name, '') if field.field_type != 'password' else '' }}"
-          >
+          {% if field.field_type == "file" %}
+            <input
+              type="file"
+              name="{{ field.name }}"
+            >
+          {% else %}
+            <input
+              type="{{ field.field_type }}"
+              name="{{ field.name }}"
+              placeholder="{{ field.placeholder }}"
+              value="{{ request.form.get(field.name, '') if field.field_type != 'password' else '' }}"
+            >
+          {% endif %}
 
           {% if field.help_text %}
             <small>{{ field.help_text }}</small>
@@ -99,6 +106,60 @@
               <div class="xss-comment-card__body">
                 {{ comment.body }}
               </div>
+            </article>
+          {% endfor %}
+        </div>
+      
+      {% elif result.kind == "file-upload" %}
+        <h3>업로드 처리 결과</h3>
+
+        <div class="upload-result-list">
+          {% for file in result.files %}
+            <article class="upload-result-card">
+              <dl>
+                <div>
+                  <dt>Original name</dt>
+                  <dd><code>{{ file.original_name }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Stored name</dt>
+                  <dd>
+                    {% if file.stored_name %}
+                      <code>{{ file.stored_name }}</code>
+                    {% else %}
+                      <span class="muted-text">저장되지 않음</span>
+                    {% endif %}
+                  </dd>
+                </div>
+
+                <div>
+                  <dt>Display name</dt>
+                  <dd>{{ file.display_name }}</dd>
+                </div>
+
+                <div>
+                  <dt>Content type</dt>
+                  <dd><code>{{ file.content_type }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Size</dt>
+                  <dd>{{ file.size }} bytes</dd>
+                </div>
+
+                <div>
+                  <dt>Accepted</dt>
+                  <dd>{{ "yes" if file.accepted else "no" }}</dd>
+                </div>
+              </dl>
+
+              <h4>판단 이유</h4>
+              <ul class="plain-list">
+                {% for reason in file.reasons %}
+                  <li>{{ reason }}</li>
+                {% endfor %}
+              </ul>
             </article>
           {% endfor %}
         </div>
