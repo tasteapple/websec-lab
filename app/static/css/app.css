@@ -939,3 +939,91 @@ code {
     grid-template-columns: 1fr;
   }
 }
+
+/* Command Injection 결과 */
+.command-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 12px 0 18px;
+}
+
+.command-card,
+.command-fragment-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.command-card h4,
+.command-fragment-card h4 {
+  margin: 0 0 10px;
+}
+
+.command-card pre,
+.command-fragment-card pre {
+  margin: 0 0 12px;
+  overflow: auto;
+  border-radius: 10px;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+}
+
+.command-card pre code,
+.command-fragment-card pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.command-card dl,
+.command-fragment-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.command-card dl div,
+.command-fragment-card dl div {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+}
+
+.command-card dt,
+.command-fragment-card dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.command-card dd,
+.command-fragment-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.command-fragment-list {
+  display: grid;
+  gap: 12px;
+}
+
+.command-fragment-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 760px) {
+  .command-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .command-card dl div,
+  .command-fragment-card dl div {
+    grid-template-columns: 1fr;
+  }
+}

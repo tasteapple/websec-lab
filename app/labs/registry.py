@@ -99,6 +99,7 @@ LAB_CATEGORIES = [
                 "id": "cmd-dns-lookup",
                 "title": "진단 명령 실행 실습",
                 "levels": 5,
+                "implemented": True,
             }
         ],
     },

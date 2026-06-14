@@ -13,6 +13,8 @@ from app.labs.ssrf import get_lab as get_ssrf_lab
 from app.labs.ssrf import run_level as run_ssrf_level
 from app.labs.ssti import get_lab as get_ssti_lab
 from app.labs.ssti import run_level as run_ssti_level
+from app.labs.command_injection import get_lab as get_command_injection_lab
+from app.labs.command_injection import run_level as run_command_injection_level
 
 
 labs_bp = Blueprint("labs", __name__, url_prefix="/labs")
@@ -38,7 +40,11 @@ LAB_RUNTIME = {
     "ssti": {
         "get_lab": get_ssti_lab,
         "run_level": run_ssti_level,
-    }
+    },
+    "command-injection": {
+        "get_lab": get_command_injection_lab,
+        "run_level": run_command_injection_level,
+    },
 }
 
 

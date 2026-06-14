@@ -293,6 +293,73 @@
             {% endfor %}
           </ul>
 
+      {% elif result.kind == "command-injection" %}
+        <h3>명령 처리 결과</h3>
+
+        <div class="command-result-grid">
+          <article class="command-card">
+            <h4>Command line</h4>
+            <pre><code>{{ result.command_line }}</code></pre>
+
+            <dl>
+              <div>
+                <dt>Mode</dt>
+                <dd><code>{{ result.mode }}</code></dd>
+              </div>
+
+              <div>
+                <dt>Accepted</dt>
+                <dd>{{ "yes" if result.accepted else "no" }}</dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="command-card">
+            <h4>판단 이유</h4>
+
+            <ul class="plain-list">
+              {% for reason in result.reasons %}
+                <li>{{ reason }}</li>
+              {% endfor %}
+            </ul>
+          </article>
+        </div>
+
+        {% if result.fragments %}
+          <h3>Mock 실행 조각</h3>
+
+          <div class="command-fragment-list">
+            {% for fragment in result.fragments %}
+              <article class="command-fragment-card">
+                <div class="command-fragment-card__header">
+                  <strong>{{ fragment.command }}</strong>
+
+                  {% if fragment.recognized %}
+                    <span class="badge badge--ok">recognized</span>
+                  {% else %}
+                    <span class="badge badge--muted">not executed</span>
+                  {% endif %}
+                </div>
+
+                <dl>
+                  <div>
+                    <dt>Fragment</dt>
+                    <dd><code>{{ fragment.fragment }}</code></dd>
+                  </div>
+
+                  <div>
+                    <dt>Args</dt>
+                    <dd><code>{{ fragment.args }}</code></dd>
+                  </div>
+                </dl>
+
+                <h4>Mock output</h4>
+                <pre><code>{{ fragment.output }}</code></pre>
+              </article>
+            {% endfor %}
+          </div>
+        {% endif %}
+
       {% elif result.rows %}
         <h3>반환된 행</h3>
 
