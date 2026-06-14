@@ -9,6 +9,10 @@ from app.labs.sqli import get_lab as get_sqli_lab
 from app.labs.sqli import run_level as run_sqli_level
 from app.labs.xss import get_lab as get_xss_lab
 from app.labs.xss import run_level as run_xss_level
+from app.labs.ssrf import get_lab as get_ssrf_lab
+from app.labs.ssrf import run_level as run_ssrf_level
+from app.labs.ssti import get_lab as get_ssti_lab
+from app.labs.ssti import run_level as run_ssti_level
 
 
 labs_bp = Blueprint("labs", __name__, url_prefix="/labs")
@@ -27,6 +31,14 @@ LAB_RUNTIME = {
         "get_lab": get_file_upload_lab,
         "run_level": run_file_upload_level,
     },
+    "ssrf": {
+        "get_lab": get_ssrf_lab,
+        "run_level": run_ssrf_level,
+    },
+    "ssti": {
+        "get_lab": get_ssti_lab,
+        "run_level": run_ssti_level,
+    }
 }
 
 

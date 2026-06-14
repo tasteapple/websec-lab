@@ -71,6 +71,7 @@ LAB_CATEGORIES = [
                 "id": "ssrf-local-metadata",
                 "title": "로컬 메타데이터 조회 시뮬레이션",
                 "levels": 5,
+                "implemented": True,
             }
         ],
     },
@@ -84,6 +85,7 @@ LAB_CATEGORIES = [
                 "id": "ssti-profile-card",
                 "title": "프로필 카드 템플릿 렌더링",
                 "levels": 5,
+                "implemented": True,
             }
         ],
     },

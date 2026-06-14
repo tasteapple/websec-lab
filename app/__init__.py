@@ -78,10 +78,12 @@ def _register_blueprints(app):
     from app.blueprints.admin import admin_bp
     from app.blueprints.labs import labs_bp
     from app.blueprints.main import main_bp
+    from app.blueprints.mock import mock_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(labs_bp)
+    app.register_blueprint(mock_bp)
 
 
 def _register_error_handlers(app):

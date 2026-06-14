@@ -799,3 +799,143 @@ code {
     grid-template-columns: 1fr;
   }
 }
+
+/* SSRF 결과 */
+.ssrf-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 12px 0 18px;
+}
+
+.ssrf-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.ssrf-card h4 {
+  margin: 0 0 12px;
+}
+
+.ssrf-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.ssrf-card dl div {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px;
+}
+
+.ssrf-card dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.ssrf-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .ssrf-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ssrf-card dl div {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* SSTI 결과 */
+.ssti-preview-card {
+  margin: 12px 0 18px;
+}
+
+.ssti-profile-card {
+  max-width: 520px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 18px;
+}
+
+.ssti-profile-card strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 1.1rem;
+}
+
+.ssti-profile-card span {
+  display: inline-flex;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 3px 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.ssti-profile-card p {
+  margin: 0;
+  color: var(--muted-strong);
+  overflow-wrap: anywhere;
+}
+
+.ssti-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 12px 0 18px;
+}
+
+.ssti-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.ssti-card h4 {
+  margin: 0;
+  border-bottom: 1px solid var(--border);
+  background: #f8fafc;
+  padding: 10px 12px;
+}
+
+.ssti-card pre {
+  margin: 0;
+  min-height: 110px;
+  overflow: auto;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 12px;
+}
+
+.ssti-card code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.form-field textarea {
+  width: 100%;
+  min-height: 120px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 11px;
+  font: inherit;
+  background: white;
+}
+
+@media (max-width: 760px) {
+  .ssti-grid {
+    grid-template-columns: 1fr;
+  }
+}

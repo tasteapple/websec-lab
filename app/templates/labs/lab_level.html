@@ -43,6 +43,14 @@
               type="file"
               name="{{ field.name }}"
             >
+
+          {% elif field.field_type == "textarea" %}
+            <textarea
+              name="{{ field.name }}"
+              placeholder="{{ field.placeholder }}"
+              rows="5"
+            >{{ request.form.get(field.name, '') }}</textarea>
+
           {% else %}
             <input
               type="{{ field.field_type }}"
@@ -163,6 +171,127 @@
             </article>
           {% endfor %}
         </div>
+
+      {% elif result.kind == "ssrf" %}
+        <h3>요청 분석</h3>
+
+        {% if result.request %}
+          <div class="ssrf-result-grid">
+            <article class="ssrf-card">
+              <h4>Parsed URL</h4>
+
+              <dl>
+                <div>
+                  <dt>Target URL</dt>
+                  <dd><code>{{ result.request.target_url }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Scheme</dt>
+                  <dd><code>{{ result.request.scheme }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Host</dt>
+                  <dd><code>{{ result.request.hostname }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Port</dt>
+                  <dd><code>{{ result.request.port }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Path</dt>
+                  <dd><code>{{ result.request.path }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Allowed</dt>
+                  <dd>{{ "yes" if result.request.allowed else "no" }}</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="ssrf-card">
+              <h4>판단 이유</h4>
+
+              <ul class="plain-list">
+                {% for reason in result.request.reasons %}
+                  <li>{{ reason }}</li>
+                {% endfor %}
+              </ul>
+            </article>
+          </div>
+        {% endif %}
+
+        {% if result.response %}
+          <h3>Mock Response</h3>
+          <pre class="result-sql"><code>{{ result.response | tojson(indent=2) }}</code></pre>
+        {% endif %}
+
+        {% elif result.kind == "ssti" %}
+          <h3>렌더링 결과</h3>
+
+          <div class="ssti-preview-card">
+            <div class="ssti-profile-card">
+              <strong>{{ result.context.name }}</strong>
+              <span>{{ result.context.role }}</span>
+              <p>{{ result.rendered_output }}</p>
+            </div>
+          </div>
+
+          <h3>템플릿 처리 흐름</h3>
+
+          <div class="ssti-grid">
+            <article class="ssti-card">
+              <h4>Original template</h4>
+              <pre><code>{{ result.template }}</code></pre>
+            </article>
+
+            <article class="ssti-card">
+              <h4>Processed template</h4>
+              <pre><code>{{ result.processed_template }}</code></pre>
+            </article>
+          </div>
+
+          <h3>Context</h3>
+          <pre class="result-sql"><code>{{ result.context | tojson(indent=2) }}</code></pre>
+
+          {% if result.expressions %}
+            <h3>평가된 표현식</h3>
+
+            <div class="table-wrap">
+              <table class="result-table">
+                <thead>
+                  <tr>
+                    <th>Expression</th>
+                    <th>Allowed</th>
+                    <th>Result</th>
+                    <th>Reason</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for expression in result.expressions %}
+                    <tr>
+                      <td><code>{{ expression.expression }}</code></td>
+                      <td>{{ "yes" if expression.allowed else "no" }}</td>
+                      <td>{{ expression.result }}</td>
+                      <td>{{ expression.reason }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% endif %}
+
+          <h3>판단 이유</h3>
+          <ul class="plain-list">
+            {% for reason in result.reasons %}
+              <li>{{ reason }}</li>
+            {% endfor %}
+          </ul>
 
       {% elif result.rows %}
         <h3>반환된 행</h3>
