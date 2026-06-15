@@ -127,6 +127,7 @@ LAB_CATEGORIES = [
                 "id": "download-report",
                 "title": "리포트 다운로드 경로 조작",
                 "levels": 5,
+                "implemented": True,
             }
         ],
     },
@@ -140,6 +141,7 @@ LAB_CATEGORIES = [
                 "id": "auth-weak-login",
                 "title": "약한 로그인 로직",
                 "levels": 5,
+                "implemented": True,
             }
         ],
     },
@@ -150,9 +152,10 @@ LAB_CATEGORIES = [
         "description": "객체 단위 권한 검증과 역할 기반 접근 제어를 학습합니다.",
         "labs": [
             {
-                "id": "access-user-invoice",
-                "title": "다른 사용자 청구서 접근",
+                "id": "idor-order-view",
+                "title": "주문 상세 IDOR",
                 "levels": 5,
+                "implemented": True,
             }
         ],
     },
@@ -163,9 +166,10 @@ LAB_CATEGORIES = [
         "description": "쿠폰, 주문, 가격 계산처럼 기능 흐름에서 발생하는 논리 결함을 학습합니다.",
         "labs": [
             {
-                "id": "logic-coupon-abuse",
-                "title": "쿠폰 중복 사용",
+                "id": "coupon-checkout",
+                "title": "쿠폰 checkout 로직 검증",
                 "levels": 5,
+                "implemented": True,
             }
         ],
     },

@@ -1,0 +1,2 @@
+Public report: monthly summary
+이번 달 학습 진행률과 공개 통계를 담은 예시 파일입니다.

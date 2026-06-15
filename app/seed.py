@@ -19,7 +19,9 @@ from app.models import (
     User,
     utc_now,
 )
-
+from app.labs.authentication import reset_auth_demo_table
+from app.labs.access_control import reset_access_demo_tables
+from app.labs.business_logic import reset_business_demo_tables
 
 def seed_database():
     """
@@ -42,6 +44,15 @@ def seed_database():
     # ORM 모델이 아닌 XSS 실습 전용 raw SQL 테이블 초기화
     reset_xss_demo_table()
 
+    # ORM 모델이 아닌 Authentication 실습 전용 raw SQL 테이블 초기화
+    reset_auth_demo_table()
+
+    # ORM 모델이 아닌 Access Control 실습 전용 raw SQL 테이블 초기화
+    reset_access_demo_tables()
+
+    # ORM 모델이 아닌 Business Logic 실습 전용 raw SQL 테이블 초기화
+    reset_business_demo_tables()
+
     users = _create_users()
     products = _create_products()
     posts = _create_posts(users)
@@ -62,6 +73,30 @@ def seed_database():
         text("SELECT COUNT(*) FROM xss_demo_comments")
     ).scalar_one()
 
+    auth_demo_user_count = db.session.execute(
+        text("SELECT COUNT(*) FROM auth_demo_users")
+    ).scalar_one()
+    
+    access_demo_user_count = db.session.execute(
+    text("SELECT COUNT(*) FROM access_demo_users")
+    ).scalar_one()
+    
+    access_demo_order_count = db.session.execute(
+    text("SELECT COUNT(*) FROM access_demo_orders")
+    ).scalar_one()
+
+    business_demo_product_count = db.session.execute(
+        text("SELECT COUNT(*) FROM business_demo_products")
+    ).scalar_one()
+
+    business_demo_coupon_count = db.session.execute(
+        text("SELECT COUNT(*) FROM business_demo_coupons")
+    ).scalar_one()
+
+    business_demo_order_count = db.session.execute(
+        text("SELECT COUNT(*) FROM business_demo_orders")
+    ).scalar_one()
+    
     return {
         "users": User.query.count(),
         "posts": Post.query.count(),
@@ -72,6 +107,12 @@ def seed_database():
         "lab_progress": LabProgress.query.count(),
         "sqli_demo_users": sqli_demo_user_count,
         "xss_demo_comments": xss_demo_comment_count,
+        "auth_demo_users": auth_demo_user_count,
+        "access_demo_users": access_demo_user_count,
+        "access_demo_orders": access_demo_order_count,
+        "business_demo_products": business_demo_product_count,
+        "business_demo_coupons": business_demo_coupon_count,
+        "business_demo_orders": business_demo_order_count,
     }
 
 

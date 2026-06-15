@@ -23,11 +23,8 @@
   <section class="panel">
     <div class="panel__header">
       <div>
-        <h2>입력 폼</h2>
-        <p>
-          이 입력은 로컬 SQLite의 교육용 테이블에만 적용됩니다.
-          실제 외부 시스템에는 요청하지 않습니다.
-        </p>
+        <h2>{{ form_ui.title }}</h2>
+        <p>{{ form_ui.note }}</p>
       </div>
 
       <span class="level-badge">Level {{ current_level }}</span>
@@ -357,6 +354,464 @@
                 <pre><code>{{ fragment.output }}</code></pre>
               </article>
             {% endfor %}
+          </div>
+        {% endif %}
+
+      {% elif result.kind == "path-traversal" %}
+        <h3>경로 분석 결과</h3>
+
+        {% if result.request %}
+          <div class="path-result-grid">
+            <article class="path-card">
+              <h4>Resolved Path</h4>
+
+              <dl>
+                <div>
+                  <dt>Input</dt>
+                  <dd><code>{{ result.request.input }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Base dir</dt>
+                  <dd><code>{{ result.request.base_dir }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Target path</dt>
+                  <dd><code>{{ result.request.target_path }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Resolved</dt>
+                  <dd><code>{{ result.request.resolved_target }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Demo root</dt>
+                  <dd><code>{{ result.request.demo_root }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Allowed</dt>
+                  <dd>{{ "yes" if result.request.allowed else "no" }}</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="path-card">
+              <h4>판단 이유</h4>
+
+              <ul class="plain-list">
+                {% for reason in result.request.reasons %}
+                  <li>{{ reason }}</li>
+                {% endfor %}
+              </ul>
+            </article>
+          </div>
+        {% endif %}
+
+        {% if result.file and result.file.content %}
+          <h3>파일 내용</h3>
+
+          <article class="path-file-preview">
+            <div class="path-file-preview__header">
+              <strong>{{ result.file.name }}</strong>
+              <span>local demo file</span>
+            </div>
+
+            <pre><code>{{ result.file.content }}</code></pre>
+          </article>
+        {% endif %}
+
+      {% elif result.kind == "authentication" %}
+        <h3>클라이언트 응답</h3>
+
+        <article class="auth-client-response {% if result.success %}is-success{% else %}is-failed{% endif %}">
+          <strong>{{ result.client_message }}</strong>
+        </article>
+
+        {% if result.attempt %}
+          <h3>인증 흐름 분석</h3>
+
+          <div class="auth-result-grid">
+            <article class="auth-card">
+              <h4>Attempt</h4>
+
+              <dl>
+                <div>
+                  <dt>Username</dt>
+                  <dd><code>{{ result.attempt.username }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>User exists</dt>
+                  <dd>{{ "yes" if result.attempt.user_exists else "no" }}</dd>
+                </div>
+
+                <div>
+                  <dt>Role</dt>
+                  <dd><code>{{ result.attempt.role }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Status</dt>
+                  <dd><code>{{ result.attempt.account_status }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Failed attempts</dt>
+                  <dd>{{ result.attempt.failed_attempts }}</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="auth-card">
+              <h4>Security Checks</h4>
+
+              <dl>
+                <div>
+                  <dt>Plain compare</dt>
+                  <dd>{{ "yes" if result.attempt.used_plaintext_check else "no" }}</dd>
+                </div>
+
+                <div>
+                  <dt>Hash check</dt>
+                  <dd>{{ "yes" if result.attempt.used_hash_check else "no" }}</dd>
+                </div>
+
+                <div>
+                  <dt>Generic error</dt>
+                  <dd>{{ "yes" if result.attempt.used_generic_error else "no" }}</dd>
+                </div>
+
+                <div>
+                  <dt>Status check</dt>
+                  <dd>{{ "yes" if result.attempt.checked_account_status else "no" }}</dd>
+                </div>
+
+                <div>
+                  <dt>Rate limit</dt>
+                  <dd>{{ "yes" if result.attempt.checked_rate_limit else "no" }}</dd>
+                </div>
+              </dl>
+            </article>
+          </div>
+        {% endif %}
+
+        <h3>판단 이유</h3>
+
+        <ul class="plain-list">
+          {% for reason in result.reasons %}
+            <li>{{ reason }}</li>
+          {% endfor %}
+        </ul>
+
+      {% elif result.kind == "access-control" %}
+        <h3>클라이언트 응답</h3>
+
+        <article class="access-client-response {% if result.allowed %}is-success{% else %}is-failed{% endif %}">
+          <strong>{{ result.client_message }}</strong>
+        </article>
+
+        <h3>접근 주체 / 대상</h3>
+
+        <div class="access-result-grid">
+          <article class="access-card">
+            <h4>Viewer</h4>
+
+            <dl>
+              <div>
+                <dt>ID</dt>
+                <dd><code>{{ result.viewer.id }}</code></dd>
+              </div>
+
+              <div>
+                <dt>Username</dt>
+                <dd><code>{{ result.viewer.username }}</code></dd>
+              </div>
+
+              <div>
+                <dt>Role</dt>
+                <dd><code>{{ result.viewer.role }}</code></dd>
+              </div>
+
+              <div>
+                <dt>Status</dt>
+                <dd><code>{{ result.viewer.status }}</code></dd>
+              </div>
+            </dl>
+          </article>
+
+          <article class="access-card">
+            <h4>Target owner</h4>
+
+            <dl>
+              <div>
+                <dt>ID</dt>
+                <dd><code>{{ result.target_user.id }}</code></dd>
+              </div>
+
+              <div>
+                <dt>Username</dt>
+                <dd><code>{{ result.target_user.username }}</code></dd>
+              </div>
+
+              <div>
+                <dt>Role</dt>
+                <dd><code>{{ result.target_user.role }}</code></dd>
+              </div>
+
+              <div>
+                <dt>Status</dt>
+                <dd><code>{{ result.target_user.status }}</code></dd>
+              </div>
+            </dl>
+          </article>
+        </div>
+
+        <h3>적용된 보안 검사</h3>
+
+        <div class="access-check-grid">
+          <article class="access-check-card">
+            <span>Client user_id trusted</span>
+            <strong>{{ "yes" if result.checks.used_client_user_id else "no" }}</strong>
+          </article>
+
+          <article class="access-check-card">
+            <span>Owner checked</span>
+            <strong>{{ "yes" if result.checks.checked_owner else "no" }}</strong>
+          </article>
+
+          <article class="access-check-card">
+            <span>Server role checked</span>
+            <strong>{{ "yes" if result.checks.checked_server_role else "no" }}</strong>
+          </article>
+
+          <article class="access-check-card">
+            <span>Client role trusted</span>
+            <strong>{{ "yes" if result.checks.trusted_client_role else "no" }}</strong>
+          </article>
+
+          <article class="access-check-card">
+            <span>Status checked</span>
+            <strong>{{ "yes" if result.checks.checked_status else "no" }}</strong>
+          </article>
+        </div>
+
+        <h3>판단 이유</h3>
+
+        <ul class="plain-list">
+          {% for reason in result.reasons %}
+            <li>{{ reason }}</li>
+          {% endfor %}
+        </ul>
+
+        {% if result.orders %}
+          <h3>반환된 주문</h3>
+
+          <div class="access-order-list">
+            {% for order in result.orders %}
+              <article class="access-order-card">
+                <div class="access-order-card__header">
+                  <strong>{{ order.order_number }}</strong>
+                  <span>{{ order.status }}</span>
+                </div>
+
+                <dl>
+                  <div>
+                    <dt>Order ID</dt>
+                    <dd><code>{{ order.id }}</code></dd>
+                  </div>
+
+                  <div>
+                    <dt>Owner</dt>
+                    <dd><code>{{ order.owner_username }}</code></dd>
+                  </div>
+
+                  <div>
+                    <dt>Item</dt>
+                    <dd>{{ order.item_name }}</dd>
+                  </div>
+
+                  <div>
+                    <dt>Total</dt>
+                    <dd>{{ order.total }}</dd>
+                  </div>
+
+                  <div>
+                    <dt>Internal note</dt>
+                    <dd>{{ order.internal_note }}</dd>
+                  </div>
+                </dl>
+              </article>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+      {% elif result.kind == "business-logic" %}
+        <h3>클라이언트 응답</h3>
+
+        <article class="logic-client-response {% if result.allowed %}is-success{% else %}is-failed{% endif %}">
+          <strong>{{ result.client_message }}</strong>
+        </article>
+
+        {% if result.checkout %}
+          <h3>Checkout 계산 결과</h3>
+
+          <div class="logic-result-grid">
+            <article class="logic-card">
+              <h4>Order Input</h4>
+
+              <dl>
+                <div>
+                  <dt>Username</dt>
+                  <dd><code>{{ result.checkout.username }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Product</dt>
+                  <dd>
+                    <code>{{ result.checkout.product_sku }}</code>
+                    {{ result.checkout.product_name }}
+                  </dd>
+                </div>
+
+                <div>
+                  <dt>Quantity</dt>
+                  <dd><code>{{ result.checkout.quantity }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Coupon</dt>
+                  <dd><code>{{ result.checkout.coupon_code }}</code></dd>
+                </div>
+
+                <div>
+                  <dt>Client price</dt>
+                  <dd><code>{{ result.checkout.client_price_cents }}</code></dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="logic-card">
+              <h4>Price Calculation</h4>
+
+              <dl>
+                <div>
+                  <dt>Server unit price</dt>
+                  <dd>{{ result.checkout.server_unit_price }} cents</dd>
+                </div>
+
+                <div>
+                  <dt>Used unit price</dt>
+                  <dd>{{ result.checkout.unit_price_used }} cents</dd>
+                </div>
+
+                <div>
+                  <dt>Subtotal</dt>
+                  <dd>{{ result.checkout.subtotal_cents }} cents</dd>
+                </div>
+
+                <div>
+                  <dt>Discount</dt>
+                  <dd>{{ result.checkout.discount_cents }} cents</dd>
+                </div>
+
+                <div>
+                  <dt>Total</dt>
+                  <dd><strong>{{ result.checkout.total_cents }} cents</strong></dd>
+                </div>
+              </dl>
+            </article>
+          </div>
+
+          <h3>재고 상태</h3>
+
+          <div class="logic-stock-grid">
+            <article class="logic-stock-card">
+              <span>Current stock</span>
+              <strong>{{ result.checkout.current_stock }}</strong>
+            </article>
+
+            <article class="logic-stock-card">
+              <span>Projected stock</span>
+              <strong>{{ result.checkout.projected_stock }}</strong>
+            </article>
+
+            <article class="logic-stock-card">
+              <span>Accepted</span>
+              <strong>{{ "yes" if result.checkout.accepted else "no" }}</strong>
+            </article>
+          </div>
+
+          <h3>적용된 보안 검사</h3>
+
+          <div class="logic-check-grid">
+            <article class="logic-check-card">
+              <span>Quantity validated</span>
+              <strong>{{ "yes" if result.checkout.checks.validated_quantity else "no" }}</strong>
+            </article>
+
+            <article class="logic-check-card">
+              <span>Trusted client price</span>
+              <strong>{{ "yes" if result.checkout.checks.trusted_client_price else "no" }}</strong>
+            </article>
+
+            <article class="logic-check-card">
+              <span>Server price used</span>
+              <strong>{{ "yes" if result.checkout.checks.server_price_used else "no" }}</strong>
+            </article>
+
+            <article class="logic-check-card">
+              <span>Coupon usage checked</span>
+              <strong>{{ "yes" if result.checkout.checks.checked_coupon_usage else "no" }}</strong>
+            </article>
+
+            <article class="logic-check-card">
+              <span>Stock checked</span>
+              <strong>{{ "yes" if result.checkout.checks.checked_stock else "no" }}</strong>
+            </article>
+
+            <article class="logic-check-card">
+              <span>Stock updated</span>
+              <strong>{{ "yes" if result.checkout.checks.updated_stock else "no" }}</strong>
+            </article>
+          </div>
+        {% endif %}
+
+        <h3>판단 이유</h3>
+
+        <ul class="plain-list">
+          {% for reason in result.reasons %}
+            <li>{{ reason }}</li>
+          {% endfor %}
+        </ul>
+
+        {% if result.products %}
+          <h3>Demo product stock</h3>
+
+          <div class="table-wrap">
+            <table class="result-table">
+              <thead>
+                <tr>
+                  <th>SKU</th>
+                  <th>Name</th>
+                  <th>Unit price</th>
+                  <th>Stock</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {% for product in result.products %}
+                  <tr>
+                    <td><code>{{ product.sku }}</code></td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.unit_price_cents }} cents</td>
+                    <td>{{ product.stock }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
           </div>
         {% endif %}
 

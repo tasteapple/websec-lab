@@ -1027,3 +1027,410 @@ code {
     grid-template-columns: 1fr;
   }
 }
+
+/* Path Traversal 결과 */
+.path-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 12px 0 18px;
+}
+
+.path-card,
+.path-file-preview {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.path-card h4 {
+  margin: 0 0 12px;
+}
+
+.path-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.path-card dl div {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 10px;
+}
+
+.path-card dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.path-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.path-file-preview {
+  overflow: hidden;
+  padding: 0;
+}
+
+.path-file-preview__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  border-bottom: 1px solid var(--border);
+  background: #f8fafc;
+  padding: 10px 12px;
+}
+
+.path-file-preview__header span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.path-file-preview pre {
+  margin: 0;
+  overflow: auto;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 14px;
+}
+
+.path-file-preview code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+@media (max-width: 760px) {
+  .path-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .path-card dl div {
+    grid-template-columns: 1fr;
+  }
+}
+/* Authentication 결과 */
+.auth-client-response {
+  margin: 12px 0 18px;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.auth-client-response.is-success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.auth-client-response.is-failed {
+  border: 1px solid #fecdd3;
+  background: #fff1f2;
+  color: #9f1239;
+}
+
+.auth-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 12px 0 18px;
+}
+
+.auth-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.auth-card h4 {
+  margin: 0 0 12px;
+}
+
+.auth-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.auth-card dl div {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 10px;
+}
+
+.auth-card dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.auth-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .auth-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-card dl div {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Access Control 결과 */
+.access-client-response {
+  margin: 12px 0 18px;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.access-client-response.is-success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.access-client-response.is-failed {
+  border: 1px solid #fecdd3;
+  background: #fff1f2;
+  color: #9f1239;
+}
+
+.access-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 12px 0 18px;
+}
+
+.access-card,
+.access-order-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.access-card h4 {
+  margin: 0 0 12px;
+}
+
+.access-card dl,
+.access-order-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.access-card dl div,
+.access-order-card dl div {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 10px;
+}
+
+.access-card dt,
+.access-order-card dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.access-card dd,
+.access-order-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.access-check-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+.access-check-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.access-check-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.access-check-card strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.1rem;
+}
+
+.access-order-list {
+  display: grid;
+  gap: 12px;
+}
+
+.access-order-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.access-order-card__header span {
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  padding: 3px 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+@media (max-width: 900px) {
+  .access-check-grid {
+    grid-template-columns: repeat(2, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .access-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .access-card dl div,
+  .access-order-card dl div {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .access-check-grid {
+    grid-template-columns: 1fr;
+  }
+}
+/* Business Logic 결과 */
+.logic-client-response {
+  margin: 12px 0 18px;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.logic-client-response.is-success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.logic-client-response.is-failed {
+  border: 1px solid #fecdd3;
+  background: #fff1f2;
+  color: #9f1239;
+}
+
+.logic-result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin: 12px 0 18px;
+}
+
+.logic-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+}
+
+.logic-card h4 {
+  margin: 0 0 12px;
+}
+
+.logic-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.logic-card dl div {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 10px;
+}
+
+.logic-card dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.logic-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.logic-stock-grid,
+.logic-check-grid {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+.logic-stock-grid {
+  grid-template-columns: repeat(3, minmax(130px, 1fr));
+}
+
+.logic-check-grid {
+  grid-template-columns: repeat(6, minmax(130px, 1fr));
+}
+
+.logic-stock-card,
+.logic-check-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.logic-stock-card span,
+.logic-check-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.logic-stock-card strong,
+.logic-check-card strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 1000px) {
+  .logic-check-grid {
+    grid-template-columns: repeat(3, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .logic-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .logic-card dl div {
+    grid-template-columns: 1fr;
+  }
+
+  .logic-stock-grid,
+  .logic-check-grid {
+    grid-template-columns: 1fr;
+  }
+}
