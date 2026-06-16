@@ -23,6 +23,8 @@ from app.labs.access_control import get_lab as get_access_control_lab
 from app.labs.access_control import run_level as run_access_control_level
 from app.labs.business_logic import get_lab as get_business_logic_lab
 from app.labs.business_logic import run_level as run_business_logic_level
+from app.labs.information_disclosure import get_lab as get_information_disclosure_lab
+from app.labs.information_disclosure import run_level as run_information_disclosure_level
 
 labs_bp = Blueprint("labs", __name__, url_prefix="/labs")
 
@@ -67,6 +69,10 @@ LAB_RUNTIME = {
     "business-logic": {
         "get_lab": get_business_logic_lab,
         "run_level": run_business_logic_level,
+    },
+    "information-disclosure": {
+        "get_lab": get_information_disclosure_lab,
+        "run_level": run_information_disclosure_level,
     }
 }
 
@@ -110,6 +116,10 @@ FORM_UI = {
     "business-logic": {
         "title": "비즈니스 로직 실습",
         "note": "실제 비즈니스 로직 테스트는 하지 않고 로컬 demo 환경에서만 시뮬레이션합니다.",
+    },
+    "information-disclosure": {
+        "title": "정보 누출 실습",
+        "note": "실제 정보 누출 테스트는 하지 않고 로컬 demo 환경에서만 시뮬레이션합니다.",
     }
 }
 

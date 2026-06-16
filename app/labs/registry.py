@@ -174,15 +174,16 @@ LAB_CATEGORIES = [
         ],
     },
     {
-        "slug": "info-disclosure",
+        "slug": "information-disclosure",
         "title": "Information Disclosure",
         "nav_title": "Info Disclosure",
-        "description": "디버그 정보, 상세 오류, 내부 데이터가 노출되는 문제를 학습합니다.",
+        "description": "오류 메시지, debug 정보, 과도한 응답 필드로 인한 정보 노출을 학습합니다.",
         "labs": [
             {
-                "id": "info-debug-leak",
-                "title": "디버그 정보 노출",
+                "id": "debug-profile",
+                "title": "Debug Profile 정보 노출",
                 "levels": 5,
+                "implemented": True,
             }
         ],
     },

@@ -815,6 +815,91 @@
           </div>
         {% endif %}
 
+      {% elif result.kind == "information-disclosure" %}
+        <h3>클라이언트 응답</h3>
+
+        <article class="info-client-response {% if result.status == 'ok' %}is-success{% else %}is-failed{% endif %}">
+          <strong>{{ result.client_message }}</strong>
+        </article>
+
+        {% if result.viewer %}
+          <h3>Viewer</h3>
+
+          <article class="info-card">
+            <dl>
+              <div>
+                <dt>Requested viewer</dt>
+                <dd><code>{{ result.viewer.requested_viewer }}</code></dd>
+              </div>
+
+              <div>
+                <dt>Exists</dt>
+                <dd>{{ "yes" if result.viewer.exists else "no" }}</dd>
+              </div>
+
+              <div>
+                <dt>Username</dt>
+                <dd><code>{{ result.viewer.username }}</code></dd>
+              </div>
+
+              <div>
+                <dt>Role</dt>
+                <dd><code>{{ result.viewer.role }}</code></dd>
+              </div>
+            </dl>
+          </article>
+        {% endif %}
+
+        <h3>응답 Payload</h3>
+
+        {% if result.payload %}
+          <pre class="result-sql"><code>{{ result.payload | tojson(indent=2) }}</code></pre>
+        {% else %}
+          <p class="muted-text">공개 payload가 없습니다.</p>
+        {% endif %}
+
+        {% if result.error_details %}
+          <h3>Error Details</h3>
+          <pre class="result-error"><code>{{ result.error_details | tojson(indent=2) }}</code></pre>
+        {% endif %}
+
+        <h3>적용된 보안 검사</h3>
+
+        <div class="info-check-grid">
+          <article class="info-check-card">
+            <span>Generic error</span>
+            <strong>{{ "yes" if result.checks.generic_error else "no" }}</strong>
+          </article>
+
+          <article class="info-check-card">
+            <span>Debug config exposed</span>
+            <strong>{{ "yes" if result.checks.debug_config_exposed else "no" }}</strong>
+          </article>
+
+          <article class="info-check-card">
+            <span>Field allowlist</span>
+            <strong>{{ "yes" if result.checks.field_allowlist else "no" }}</strong>
+          </article>
+
+          <article class="info-check-card">
+            <span>Overbroad fields</span>
+            <strong>{{ "yes" if result.checks.overbroad_fields else "no" }}</strong>
+          </article>
+
+          <article class="info-check-card">
+            <span>Internal fields exposed</span>
+            <strong>{{ "yes" if result.checks.internal_fields_exposed else "no" }}</strong>
+          </article>
+        </div>
+
+        <h3>판단 이유</h3>
+
+        <ul class="plain-list">
+          {% for reason in result.reasons %}
+            <li>{{ reason }}</li>
+          {% endfor %}
+        </ul>
+
       {% elif result.rows %}
         <h3>반환된 행</h3>
 

@@ -1434,3 +1434,96 @@ code {
     grid-template-columns: 1fr;
   }
 }
+
+/* Information Disclosure 결과 */
+.info-client-response {
+  margin: 12px 0 18px;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.info-client-response.is-success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.info-client-response.is-failed {
+  border: 1px solid #fecdd3;
+  background: #fff1f2;
+  color: #9f1239;
+}
+
+.info-card {
+  max-width: 720px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 14px;
+  margin: 12px 0 18px;
+}
+
+.info-card dl {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+}
+
+.info-card dl div {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 10px;
+}
+
+.info-card dt {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.info-card dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.info-check-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(130px, 1fr));
+  gap: 10px;
+  margin: 12px 0 18px;
+}
+
+.info-check-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #ffffff;
+  padding: 12px;
+}
+
+.info-check-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.info-check-card strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 900px) {
+  .info-check-grid {
+    grid-template-columns: repeat(2, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .info-card dl div {
+    grid-template-columns: 1fr;
+  }
+
+  .info-check-grid {
+    grid-template-columns: 1fr;
+  }
+}
